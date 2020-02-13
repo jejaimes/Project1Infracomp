@@ -4,6 +4,7 @@ public class Buffer {
 	private int size;
 	private Message[] messages;
 	
+	
 	public Buffer(int size) {
 		this.size = size;
 		messages = new Message[size];
@@ -12,7 +13,7 @@ public class Buffer {
 	public synchronized void saveMessage(Message m) {
 		if(size > 0) {
 			size--;
-			messages[size] = m;
+			messages[size-1] = m;
 			try {
 				m.wait();
 			} catch (InterruptedException e) {

@@ -1,24 +1,21 @@
 
 public class Message {
 
-	private int answer;
-	private int query;
+	private int message;
 	
-	public Message(int i) {
-		this.query = i;
+	public Message(int i){
+		message = i;
+	}
+
+	public int getMessage() {
+		return message;
+	}
+
+	public void setMessage(int message) {
+		this.message = message;
 	}
 	
-	public int getQuery() {
-		return query;
-	}
-	public void setQuery(int query) {
-		this.query = query;
-	}
-	public int getAnswer() {
-		return answer;
-	}
-	public void setAnswer(int answer) {
-		this.answer = answer;
-	}
+	
+
 
 }
