@@ -15,6 +15,9 @@ public class Message {
 		this.message = message;
 	}
 	
+	public void answerMessage(){
+		message++;
+	}
 	
 
 

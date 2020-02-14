@@ -35,12 +35,13 @@ public class main {
 				Server s = new Server(buffer);
 				servers[i]=s;
 			}
-			for (int i = 0; i < servers.length; i++) {
-				servers[i].run();
-			}
 			for (int i = 0; i < clients.length; i++) {
-				clients[i].run();;
+				clients[i].start();
 			}
+			for (int i = 0; i < servers.length; i++) {
+				servers[i].start();
+			}
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
