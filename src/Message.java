@@ -17,6 +17,7 @@ public class Message {
 	
 	public void answerMessage(){
 		message++;
+		System.out.println("Responding message "+(message-1)+" to: "+message);
 	}
 	
 

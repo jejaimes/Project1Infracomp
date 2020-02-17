@@ -28,19 +28,24 @@ public class main {
 			clients = new Client[numClients];
 			servers = new Server[numServers];
 			for (int i = 0; i < clients.length; i++) {
-				Client c = new Client(numClients, buffer);
+				System.out.println("Creating client with id: "+(i+1));
+				Client c = new Client(numClients, buffer,(i+1));
 				clients[i]=c;
 			}
 			for (int i = 0; i < servers.length; i++) {
-				Server s = new Server(buffer);
+				System.out.println("Creating server with id: "+(i+1));
+				Server s = new Server(buffer,(i+1));				
 				servers[i]=s;
 			}
-			for (int i = 0; i < clients.length; i++) {
-				clients[i].start();
-			}
 			for (int i = 0; i < servers.length; i++) {
+				System.out.println("Running server with id: "+(i+1));
 				servers[i].start();
 			}
+			for (int i = 0; i < clients.length; i++) {
+				System.out.println("Running client with id: "+(i+1));
+				clients[i].start();
+			}
+			
 			
 			
 		} catch (Exception e) {
