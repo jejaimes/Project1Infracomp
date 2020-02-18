@@ -1,25 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package threadassignment;
+
+import java.util.Random;
+
+/**
+ *
+ * @author Owner
+ */
 
 public class Message {
 
-	private int message;
-	
-	public Message(int i){
-		message = i;
-	}
+    private int message;
 
-	public int getMessage() {
-		return message;
-	}
+    public Message(int i){
+        message = i;
+    }
 
-	public void setMessage(int message) {
-		this.message = message;
-	}
-	
-	public void answerMessage(){
-		message++;
-		System.out.println("Responding message "+(message-1)+" to: "+message);
-	}
-	
-
-
+    public void setMessage(int i){
+        message = i;
+    }
+    public int getMessage(){
+        return message;
+    }
 }

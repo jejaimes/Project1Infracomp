@@ -1,30 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package threadassignment;
+
+/**
+ *
+ * @author Owner
+ */
 
 public class Server extends Thread {
-	
-	private static Buffer buffer;
-	private int id;
 
-	public Server(Buffer buffer, int id){
-		this.buffer = buffer;
-		this.id = id;
-	}
-	
-	public void run(){
-		while(buffer.currentClients()>0){
-		Message m = buffer.sendMessage();
-		if (m!=null){
-		m.answerMessage();
-		int answer = m.getMessage();
-		synchronized(m){
-			m.notify();
-		}
-		}
-	}
-		System.out.println("Yielding server " + id);
-		this.yield();
-	}
-	
-	public int getNum(){
-		return id;
-	}
+    private Buffer buffer;
+    int id;
+    
+    public Server(int id, Buffer buffer){
+        this.buffer = buffer;
+        this.id = id;
+    }
+    public Message sendAnswer(Message m){
+        return m;
+    }
+    public void run(){
+        int noClient = buffer.getNumberClient();
+        
+        while(noClient > 0){
+        Message m = buffer.obtainQuery();
+        
+        if (m != null)
+        {
+            int i = m.getMessage();
+            i++;
+            m.setMessage(i);
+            synchronized(m){
+                m.notify();
+            }
+            System.out.println("Answer is "+m.getMessage());
+        }
+            noClient = buffer.getNumberClient();
+            System.out.println(buffer.getNumberClient());
+        }
+    }
 }
+

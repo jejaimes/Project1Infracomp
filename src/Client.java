@@ -1,48 +1,62 @@
-import java.util.LinkedList;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package threadassignment;
 
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Owner
+ */
 public class Client extends Thread {
 
-	private static Buffer buffer;
+	private Buffer buffer;
+        private int id;
 	private int numberMessages;
 	private LinkedList<Message> messages;
-	private int id;
 	
-	public Client(int numberMessages, Buffer buffer, int id) {
-		this.numberMessages = numberMessages;
-		this.buffer = buffer;
-		messages = new LinkedList<Message>();
-		this.id = id;
-		for(int i = 0; i < numberMessages; i++) {
-			Message m = new Message(i);
-			messages.add(m);
-		}
+	public Client(int id, int numberMessages, Buffer buffer) {
+            this.numberMessages = numberMessages;
+            this.buffer = buffer;
+            this.id = id;
+            messages = new LinkedList<Message>();
 	}
 	
 	public void run() {
-		
-		buffer.saveMessages(this);
-		try {
-			synchronized(this){
-				this.wait();
-
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		buffer.releaseClient(this);
-		System.out.println("Yielding client "+id);
-		yield();
-	}
-
-	public LinkedList<Message> getMessages() {
-		return messages;
-	}
-	
-	public int getNum(){
-		return id;
-	}
-	
-	
-	
+            //initialize message
+            for(int i = 0; i < numberMessages; i++) {
+                Random rand = new Random();
+                int q = rand.nextInt(10) + 1;
+                Message m = new Message(q);
+                messages.add(m);
+                System.out.println("Client"+id+" Creating Query: "+m.getMessage());
+            }
+            
+            for(int i = 0; i < numberMessages; i++ ){
+                Message m = messages.removeFirst();
+                buffer.saveToBuffer(m);
+                
+                synchronized(m){
+                    System.out.println("Client"+id+" is waiting.");
+                    try {
+                        m.wait();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                System.out.println("Client "+id+" has "+messages.size()+"remaining");
+            }
+            
+            System.out.println("Bleh");
+            buffer.clientLeaving();
+            System.out.println("Number "+id+" is leaving");
+        }
 }
+
+

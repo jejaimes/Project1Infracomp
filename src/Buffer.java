@@ -1,63 +1,67 @@
-import java.util.LinkedList;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package threadassignment;
+
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Owner
+ */
 
 public class Buffer {
 
 	private int size;
 	private LinkedList<Message> messages;
-	private LinkedList<Client> clients;
+        private int numberClients;
 	
+	public Buffer(int size, int numberClients) {
+            this.size = size;
+            messages = new LinkedList<>();	
+            this.numberClients = numberClients;
+        }
 	
-	public Buffer(int size) {
-		this.size = size;
-		messages = new LinkedList<Message>();
-		clients = new LinkedList<Client>();
+	public void saveToBuffer(Message m){
+            synchronized (messages){
+                while (messages.size() >= size){
+                
+                    Thread.yield();
+                }
+                messages.add(m);
+                System.out.println("Query "+ m.getMessage() +" sent to buffer");
+            }
+        }
+	public synchronized Message obtainQuery() {
+            while(messages.isEmpty()){
+                Thread.yield();
+                if (numberClients == 0)
+                    break;
+            }
+            
+            if (numberClients != 0)
+            {
+                Message m = messages.removeFirst();
+                return m;
+            }
+            return null;
+            
 	}
-	
-	public int currentClients(){
-		return clients.size();
-	}
-	
-	public synchronized void releaseClient(Client c){
-		System.out.println("Removing client "+c.getNum()+" from the Buffer");
-		clients.remove(c);
-	}
-	
-	public synchronized void saveMessages(Client c) {
-		if(messages.size() == size) {
-			try {
-				c.wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("Adding client "+c.getNum()+" to the buffer...");
-			clients.add(c);
-			LinkedList<Message> clientMessages = c.getMessages();
-			for (Message message : clientMessages) {
-				messages.add(message);	
-				if(messages.size() == size) {
-					try {
-						c.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}			
-		}
-	}
-	
-	public synchronized Message sendMessage() {
-		if(messages.size() == 0){
-			return null;
-		}
-		else {
-			if(messages.size() == size){
-				notifyAll();
-			}
-			Message m = messages.removeFirst();
-			return m;
-		}
-	}
+        public void clientLeaving(){
+            numberClients--;
+            System.out.println("Number of Clinets: "+numberClients);
+        }
+        public int getNumberClient(){
+            return numberClients; 
+        }
 }
+
+	
+
+
+    
+
