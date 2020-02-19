@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package threadassignment;
+
 
 import java.util.*;
 import java.util.logging.Level;
@@ -53,7 +53,7 @@ public class Buffer {
 	}
         public void clientLeaving(){
             numberClients--;
-            System.out.println("Number of Clinets: "+numberClients);
+            System.out.println("Number of Clients: "+numberClients);
         }
         public int getNumberClient(){
             return numberClients; 

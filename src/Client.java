@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package threadassignment;
+
 
 import java.util.*;
 import java.util.logging.Level;
@@ -34,7 +34,7 @@ public class Client extends Thread {
                 int q = rand.nextInt(10) + 1;
                 Message m = new Message(q);
                 messages.add(m);
-                System.out.println("Client"+id+" Creating Query: "+m.getMessage());
+                System.out.println("Client "+id+" Creating Query: "+m.getMessage());
             }
             
             for(int i = 0; i < numberMessages; i++ ){
@@ -42,7 +42,7 @@ public class Client extends Thread {
                 buffer.saveToBuffer(m);
                 
                 synchronized(m){
-                    System.out.println("Client"+id+" is waiting.");
+                    System.out.println("Client "+id+" is waiting.");
                     try {
                         m.wait();
                     } catch (InterruptedException ex) {
@@ -50,12 +50,14 @@ public class Client extends Thread {
                     }
                 }
                 
-                System.out.println("Client "+id+" has "+messages.size()+"remaining");
+                System.out.println("Client "+id+" has "+messages.size()+" remaining");
             }
             
             System.out.println("Bleh");
             buffer.clientLeaving();
             System.out.println("Number "+id+" is leaving");
+
+            this.yield();
         }
 }
 
