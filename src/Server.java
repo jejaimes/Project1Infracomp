@@ -19,9 +19,7 @@ public class Server extends Thread {
         this.buffer = buffer;
         this.id = id;
     }
-    public Message sendAnswer(Message m){
-        return m;
-    }
+
     public void run(){
         int noClient = buffer.getNumberClient();
         
