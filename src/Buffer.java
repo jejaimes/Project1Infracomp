@@ -28,15 +28,15 @@ public class Buffer {
 	
 	public void saveToBuffer(Message m){
             synchronized (messages){
-                while (messages.size() >= size){
-                
+                while (messages.size() >= size){               	
                     Thread.yield();
                 }
                 messages.add(m);
                 System.out.println("Query "+ m.getMessage() +" sent to buffer");
             }
         }
-	public synchronized Message obtainQuery() {
+	
+	public  Message obtainQuery() {
             while(messages.isEmpty()){
                 Thread.yield();
                 if (numberClients == 0)
@@ -45,15 +45,21 @@ public class Buffer {
             
             if (numberClients != 0)
             {
-                Message m = messages.removeFirst();
-                return m;
+            	try {
+            		Message m = messages.removeFirst();
+                    return m;	
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+                
             }
             return null;
+
             
 	}
         public void clientLeaving(){
             numberClients--;
-            System.out.println("Number of Clients: "+numberClients);
+            
         }
         public int getNumberClient(){
             return numberClients; 

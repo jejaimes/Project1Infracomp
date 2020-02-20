@@ -36,11 +36,14 @@ public class Server extends Thread {
             synchronized(m){
                 m.notify();
             }
-            System.out.println("Answer is "+m.getMessage());
+            System.out.println("------------------\nAnswer to "+(i-1)+" is "+m.getMessage()+"\n------------------");
+            
         }
-            noClient = buffer.getNumberClient();
-            System.out.println(buffer.getNumberClient());
+        noClient = buffer.getNumberClient();
+            //System.out.println(""+noClient);
+            
         }
+        this.yield();
     }
 }
 

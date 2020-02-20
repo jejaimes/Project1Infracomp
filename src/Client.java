@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class Client extends Thread {
 
 	private Buffer buffer;
-        private int id;
+    private int id;
 	private int numberMessages;
 	private LinkedList<Message> messages;
 	
@@ -34,7 +34,6 @@ public class Client extends Thread {
                 int q = rand.nextInt(10) + 1;
                 Message m = new Message(q);
                 messages.add(m);
-                System.out.println("Client "+id+" Creating Query: "+m.getMessage());
             }
             
             for(int i = 0; i < numberMessages; i++ ){
@@ -43,22 +42,20 @@ public class Client extends Thread {
                 
                 synchronized(m){
                     System.out.println("Client "+id+" is waiting.");
-                    try {
-                        m.wait();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    Thread.yield();
+                    
                 }
                 
-                System.out.println("Client "+id+" has "+messages.size()+" remaining");
+                System.out.println("Client "+id+" has "+messages.size()+" messages remaining");
             }
             
-            System.out.println("Bleh");
             buffer.clientLeaving();
-            System.out.println("Number "+id+" is leaving");
+            System.out.println("Client number "+id+" is leaving");
+            System.out.println("Number of clients in the buffer: "+buffer.getNumberClient());
 
             this.yield();
-        }
+	}
+
 }
 
 

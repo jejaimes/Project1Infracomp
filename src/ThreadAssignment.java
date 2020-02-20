@@ -44,13 +44,13 @@ private static Client[] clients;
 				Server s = new Server(i, buffer);
 				servers[i]=s;
 			}
-			for (int i = 0; i < clients.length; i++) {
-				clients[i].start();;
-			}
-			
 			for (int i = 0; i < servers.length; i++) {
 				servers[i].start();
 			}
+			for (int i = 0; i < clients.length; i++) {
+				clients[i].start();
+			}
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
