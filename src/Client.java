@@ -38,11 +38,15 @@ public class Client extends Thread {
             
             for(int i = 0; i < numberMessages; i++ ){
                 Message m = messages.removeFirst();
-                buffer.saveToBuffer(m);
                 
                 synchronized(m){
+                	buffer.saveToBuffer(m);
                     System.out.println("Client "+id+" is waiting.");
-                    Thread.yield();
+                    try {
+						m.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
                     
                 }
                 
