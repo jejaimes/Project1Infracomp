@@ -57,7 +57,7 @@ public class Client extends Thread {
             System.out.println("Client number "+id+" is leaving");
             System.out.println("Number of clients in the buffer: "+buffer.getNumberClient());
 
-            this.yield();
+            //this.yield();
 	}
 
 }
